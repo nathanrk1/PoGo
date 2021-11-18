@@ -13,8 +13,7 @@ include("phpConnect.php")
     <title>Pokemon Kanto Select</title>
     <style type="text/css">
     body {
-      font-size: 1 em;
-
+      font-size: 16px;
     }
 
     </style>
@@ -50,11 +49,10 @@ include("phpConnect.php")
   <script>
 
         var data = <?php echo $json_array; ?>;
-        //var data = (object);
-        console.log(data[1].Pokemon_Name);
-        //console.log(data);
+        // console.log(data[1].Pokemon_Name);
 
-        var height = 168.75 em;
+
+        var height = "168.75em";
         var width = "100%";
         
         var svg = d3.select("#rect").append("svg").attr("width", width).attr("height", height);
@@ -69,15 +67,17 @@ include("phpConnect.php")
               
         var x = 10;
         x = x + (130*j);
+        var xMeas = (x/16) + "em"
 
         var y = 10;
         y = y + (130*i);
+        var yMeas = (y/16) + "em"
 
         svg.append('rect')
-          .attr('x', x)
-          .attr('y', y)
-          .attr('width', 115)
-          .attr('height', 115)
+          .attr('x', xMeas)
+          .attr('y', yMeas)
+          .attr('width', (115/16) + "em")
+          .attr('height',(115/16) + "em")
           .attr('stroke', 'black')
           .attr('fill', '#69a3b2');
 
