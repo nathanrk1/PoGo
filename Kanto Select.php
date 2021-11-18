@@ -12,6 +12,10 @@ include("phpConnect.php")
     <meta charset="utf-8" />
     <title>Pokemon Kanto Select</title>
     <style type="text/css">
+    body {
+      font-size: 1 em;
+
+    }
 
     </style>
 </head>
@@ -45,9 +49,12 @@ include("phpConnect.php")
   <script src="js/jquery-3.6.0.min.js"></script>
   <script>
 
-        var data = <?php echo $json_array; ?>
+        var data = <?php echo $json_array; ?>;
+        //var data = (object);
+        console.log(data[1].Pokemon_Name);
+        //console.log(data);
 
-        var height = 2700;
+        var height = 168.75 em;
         var width = "100%";
         
         var svg = d3.select("#rect").append("svg").attr("width", width).attr("height", height);
@@ -57,7 +64,7 @@ include("phpConnect.php")
         for (let j = 0; j < 9; j++) {  
         
         
-        console.log(count)
+        //console.log(count)
         if (count >= 178) { break; }
               
         var x = 10;
