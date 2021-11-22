@@ -51,7 +51,7 @@ include("phpConnect.php")
         var data = <?php echo $json_array; ?>;
         // console.log(data[1].Pokemon_Name);
 
-
+    
         var height = "168.75em";
         var width = "100%";
         
@@ -61,25 +61,79 @@ include("phpConnect.php")
       for (let i = 0; i <= 20; i++) {
         for (let j = 0; j < 9; j++) {  
         
-        
-        //console.log(count)
         if (count >= 178) { break; }
-              
+        
+        //x-position
         var x = 10;
         x = x + (130*j);
-        var xMeas = (x/16) + "em"
+        var xMeas = (x/16) + "em";
 
+        //y-position
         var y = 10;
         y = y + (130*i);
-        var yMeas = (y/16) + "em"
+        var yMeas = (y/16) + "em";
 
+        //drawing the squares
         svg.append('rect')
           .attr('x', xMeas)
           .attr('y', yMeas)
+          .attr('class',data[count].Pokemon_Name.toLowerCase())
           .attr('width', (115/16) + "em")
           .attr('height',(115/16) + "em")
           .attr('stroke', 'black')
           .attr('fill', '#69a3b2');
+
+        var xID = 55;
+        xID = xID + (130*j);
+        var xMeasID = (xID/16) + "em";
+
+        //y-position
+        var yID = 35;
+        yID = yID + (130*i);
+        var yMeasID = (yID/16) + "em";
+        
+        svg.append('text')
+          .attr('x', xMeasID)
+          .attr('y', yMeasID)
+          .attr('font-size', "12pt")
+          .attr('stroke', 'black')
+          .attr('fill', '#69a3b2')
+          .text(data[count].Pokemon_ID);
+
+
+        var xName = 30;
+        xName = xName + (130*j);
+        var xMeasName = (xName/16) + "em";
+
+        //y-position
+        var yName = 115;
+        yName = yName + (130*i);
+        var yMeasName = (yName/16) + "em";
+        
+          svg.append('text')
+            .attr('x', xMeasName)
+            .attr('y', yMeasName)
+            .attr('font-size', "12pt")
+            .attr('stroke', 'black')
+            .attr('fill', '#69a3b2')
+            .text(data[count].Pokemon_Name);
+
+        var xSprite = 30;
+        xSprite = xSprite + (130*j);
+        var xMeasSprite = (xName/16) + "em";
+
+        //y-position
+        var ySprite = 35;
+        ySprite = ySprite + (130*i);
+        var yMeasSprite = (ySprite/16) + "em";
+            
+        svg.append('image')
+          .attr('x', xMeasSprite)
+          .attr('y', yMeasSprite)
+          .attr('font-size', "12pt")
+          .attr('stroke', 'black')
+          .attr('href','sprites/' + (data[count].Pokemon_Name.toLowerCase() + '.png'))
+            
 
       count++; 
           if (x + (130 * j)==1610) { x= 10; }
