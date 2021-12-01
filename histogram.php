@@ -12,6 +12,10 @@
             margin: 100px 50px;
             }
 
+        #slider-distance{
+          transform:scale(1);
+        }
+
         /* Slider CSS */
             [slider] {
             position: relative;
@@ -203,7 +207,7 @@
     if ($conn->connect_error) {
       die("Connection failed: " . $conn->connect_error);
     }
-    $sql = "SELECT Form, Pokemon_ID, Pokemon_Name, Max_CP FROM PokemonGOMaxCP";
+    $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats ORDER BY Pokemon_ID";
     // echo ($sql);
     // // exit();
     $result = $conn->query($sql);
@@ -211,6 +215,7 @@
     while($row = mysqli_fetch_assoc($result))
     $transfer[] = $row; 
     $json_array = json_encode($transfer);
+ 
   ?>
 <!-- Create a div where the graph will take place -->
 <div id="my_dataviz">
@@ -261,9 +266,15 @@
 
 <script>
     var data= <?php echo $json_array; ?>;
-    var entryCNT = data.length;
-    // histogram code 
+    // console.log(data);
 
+    function cleanType(x){
+      var tempType = data[x].Pokemon_Type.split(', ');
+      var tempTypeFinal = tempType[0].replace("[","").replace("'","").replace("'","").replace("]","");
+      return tempTypeFinal;
+    }
+
+    // histogram code 
     // set the dimensions and margins of the graph
     
     var margin = {top: 10, right: 30, bottom: 30, left: 40},
@@ -280,38 +291,102 @@
               "translate(" + margin.left + "," + margin.top + ")");
       // X axis: scale and draw:
       var x = d3.scaleLinear()
-          .domain([0, d3.max(data, function(d) { return +d.Pokemon_ID })])    // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
+          .domain([0, data.length])    // can use this instead of 1000 to have the max of data: d3.max(data, function(d) { return +d.price })
           .range([0, width]);
-      svg.append("g")
-          .attr("transform", "translate(0," + height + ")")
-          .call(d3.axisBottom(x));
+          
       // set the parameters for the histogram
       var histogram = d3.histogram()
-          .value(function(d) { return d.Pokemon_ID })   // I need to give the vector of value
+          .value(function(d) {return d.Data_ID })   // I need to give the vector of value
           .domain(x.domain())  // then the domain of the graphic
-          .thresholds(x.ticks(entryCNT)) // then the numbers of bins
+          .thresholds(x.ticks(data.length))
+           // then the numbers of bins
     
       // And apply this function to data to get the bins
       var bins = histogram(data);
-     
+      bins.shift();
       // Y axis: scale and draw:
+
       var y = d3.scaleLinear()
           .range([height, 0])
-          .domain([0, d3.max(bins, function(d) { return d.Max_CP; })]);   // d3.hist has to be called before the Y axis obviously
+          .domain([0, 5000]);   // d3.hist has to be called before the Y axis obviously
       svg.append("g")
           .call(d3.axisLeft(y));
-    
+
+      //determines bar color based on primary type
+      function typeColor(x){
+        if (x =='Normal'){
+          return '#A8A77A'
+        }
+        else if (x == 'Fire'){
+          return '#EE8130'
+        }
+        else if (x == 'Water'){
+          return '#F7D02C'
+        }
+        else if (x == 'Grass'){
+          return '#7AC74C'
+        }
+        else if (x == 'Ice'){
+          return '#96D9D6'
+        }
+        else if (x == 'Fighting'){
+          return '#C22E28'
+        }
+        else if (x == 'Poison'){
+          return '#A33EA1'
+        }
+        else if (x == 'Ground'){
+          return '#E2BF65'
+        }
+        else if (x == 'Flying'){
+          return '#A98FF3'
+        }
+        else if (x == 'Psychic'){
+          return '#F95587'
+        }
+        else if (x == 'Bug'){
+          return '#A6B91A'
+        }
+        else if (x == 'Rock'){
+          return '#B6A136'
+        }
+        else if (x == 'Ghost'){
+          return '#735797'
+        }
+        else if (x == 'Dragon'){
+          return '#6F35FC'
+        }
+        else if (x == 'Dark'){
+          return '#705746'
+        }
+        else if (x == 'Steel'){
+          return '#B7B7CE'
+        }
+        else if (x == 'Fairy'){
+          return '#D685AD'
+        }
+        else{
+          return '#000'
+        }
+      };
+
       // append the bar rectangles to the svg element
       svg.selectAll("rect")
           .data(bins)
           .enter()
           .append("rect")
             .attr("x", 1)
-            .attr("transform", function(d) { return "translate(" + x(d.x0) + "," + y(d.Max_CP) + ")"; })
-            .attr("width", function(d) { return x(d.x1) - x(d.x0) -1 ; })
-            .attr("height", function(d) { return height - y(d.Max_CP); })
-            .style("fill", "#69b3a2");
+            .attr("transform", function(d) {return "translate(" + x(d.x0) + "," + y(d[0].Max_CP) + ")"; })
+            .attr("width", function(d) { return x(d.x1) - x(d.x0) - 1 ; })
+            .attr("height", function(d) {return height - y(d[0].Max_CP); })
+            .style("fill", function(d){ return typeColor(cleanType(d[0].Data_ID - 1))});
     
+    svg.append("line")
+    .attr("stroke","black")
+    .attr('x1',0)
+    .attr('x2',1032)
+    .attr('y1',360.5)
+    .attr('y2',360.5);
     // end histogram code
 
     </script>
