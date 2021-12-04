@@ -5,6 +5,10 @@
     <meta charset="utf-8" />
     <title>Pokemon Histogram</title>
     <style type="text/css">
+          body {
+            font-size: 16px;  
+            margin: 20px 20px;
+            }
 
           .bar:hover {
             fill: brown;
@@ -13,76 +17,71 @@
           .axis--x path {
             display: none;
           }
-
+          #bars {
+              position: absolute;
+              margin-top: 0.625em;
+          }
           svg {
               position: absolute;
-            margin-top: 40px;
+              margin-top: 1.875em;
           }
 
           select {
-            margin-left: 60px;
+            margin-left: 3.750em;
           }
-
-        body {
-            margin: 100px 50px;
-            }
-
-        #slider-distance{
-          transform:scale(1);
-        }
 
         /* Slider CSS */
             [slider] {
             position: relative;
-            height: 14px;
-            border-radius: 10px;
+            height: 0.875em;
+            border-radius: 0.625em;
             text-align: left;
-            margin: 45px 0 10px 0;
+            margin: 2.813em 0em 0.625em 0em;
             }
 
             [slider] > div {
             position: absolute;
-            left: 13px;
-            right: 15px;
-            height: 14px;
+            left: 0.813em;
+            right: 0.938em;
+            height: 0.875em;
             }
 
             [slider] > div > [inverse-left] {
             position: absolute;
-            left: 0;
-            height: 14px;
-            border-radius: 10px;
+            left: 0em;
+            height: 0.875em;
+            border-radius: 0.625em;
             background-color: #CCC;
-            margin: 0 7px;
+            margin: 0em 7px;
             }
 
             [slider] > div > [inverse-right] {
             position: absolute;
             right: 0;
-            height: 14px;
-            border-radius: 10px;
+            height: 0.875em;
+            border-radius: 0.625em;
             background-color: #CCC;
-            margin: 0 7px;
+            margin: 0em 0.438em;
             }
 
             [slider] > div > [range] {
             position: absolute;
-            left: 0;
-            height: 14px;
-            border-radius: 14px;
+            left: 0em;
+            height: 0.875em;
+            border-radius: 0.875em;
             background-color: #1ABC9C;
             }
 
             [slider] > div > [thumb] {
             position: absolute;
-            top: -7px;
+            top: -0.438em;
             z-index: 2;
-            height: 28px;
-            width: 28px;
+            height: 1.750em;
+            width: 1.750em;
             text-align: left;
-            margin-left: -11px;
+            margin-left: -0.688em;
             cursor: pointer;
-            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+            box-shadow: 0em 0.188em 0.500em rgba(0, 0, 0, 0.4);
             background-color: #FFF;
             border-radius: 50%;
             outline: none;
@@ -93,8 +92,8 @@
             pointer-events: none;
             -webkit-appearance: none;
             z-index: 3;
-            height: 14px;
-            top: -2px;
+            height: 0.875em;
+            top: -0.125em;
             width: 100%;
             -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)";
             filter: alpha(opacity=0);
@@ -126,40 +125,40 @@
 
             div[slider] > input[type=range]::-ms-thumb {
             pointer-events: all;
-            width: 28px;
-            height: 28px;
-            border-radius: 0px;
-            border: 0 none;
+            width: 1.750em;
+            height: 1.750em;
+            border-radius: 0em;
+            border: 0em none;
             background: red;
             }
 
             div[slider] > input[type=range]::-moz-range-thumb {
             pointer-events: all;
-            width: 28px;
-            height: 28px;
-            border-radius: 0px;
-            border: 0 none;
+            width: 1.750em;
+            height: 1.750em;
+            border-radius: 0em;
+            border: 0em none;
             background: red;
             }
 
             div[slider] > input[type=range]::-webkit-slider-thumb {
             pointer-events: all;
-            width: 28px;
-            height: 28px;
-            border-radius: 0px;
-            border: 0 none;
+            width: 1.750em;
+            height: 1.750em;
+            border-radius: 0em;
+            border: 0em none;
             background: red;
             -webkit-appearance: none;
             }
 
             div[slider] > input[type=range]::-ms-fill-lower {
             background: transparent;
-            border: 0 none;
+            border: 0em none;
             }
 
             div[slider] > input[type=range]::-ms-fill-upper {
             background: transparent;
-            border: 0 none;
+            border: 0em none;
             }
 
             div[slider] > input[type=range]::-ms-tooltip {
@@ -169,15 +168,15 @@
             [slider] > div > [sign] {
             opacity: 0;
             position: absolute;
-            margin-left: -11px;
-            top: -39px;
+            margin-left: -0.688em;
+            top: -2.438em;
             z-index:3;
             background-color: #1ABC9C;
             color: #fff;
-            width: 28px;
-            height: 28px;
-            border-radius: 28px;
-            -webkit-border-radius: 28px;
+            width: 1.750em;
+            height: 1.750em;
+            border-radius: 1.750em;
+            -webkit-border-radius: 1.750em;
             align-items: center;
             -webkit-justify-content: center;
             justify-content: center;
@@ -187,20 +186,20 @@
             [slider] > div > [sign]:after {
             position: absolute;
             content: '';
-            left: 0;
-            border-radius: 16px;
-            top: 19px;
-            border-left: 14px solid transparent;
-            border-right: 14px solid transparent;
-            border-top-width: 16px;
+            left: 0em;
+            border-radius: 1em;
+            top: 1.188em;
+            border-left: 0.875em solid transparent;
+            border-right: 0.875em solid transparent;
+            border-top-width: 1em;
             border-top-style: solid;
             border-top-color: #1ABC9C;
             }
 
             [slider] > div > [sign] > span {
-            font-size: 12px;
+            font-size: 0.750em;
             font-weight: 700;
-            line-height: 28px;
+            line-height: 1.750em;
             }
 
             [slider]:hover > div > [sign] {
@@ -234,7 +233,7 @@
     }
 
     if($_REQUEST["type_Order"]){
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats ORDER BY Pokemon_Type";
+      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats ORDER BY Pokemon_Type ASC";
     }
 
     if($_REQUEST["CP_Order"]){
@@ -249,36 +248,11 @@
     while($row = mysqli_fetch_assoc($result))
     $transfer[] = $row; 
     $json_array = json_encode($transfer);
- 
+    
   ?>
 <!-- Create a div where the graph will take place -->
-<div id="bars">
-    <form class="buttons" id="dex_Order" method="post" action="histogram.php">
-
-      <input name="dex_Order" type="submit" value="Pokemon ID">
-    </form>
-
-    <form class="buttons" id="type_Order" method="post" action="histogram.php">
-
-      <input name="type_Order" type="submit" value="Type">
-    </form>
-
-      
-    <form class="buttons" id="CP_Order" method="post" action="histogram.php">
-       
-        <input name="CP_Order" type="submit" value="Max CP">
-    </form>
-
-</div>
-
-  <select id="filter">
-    <option value="1">1</option>
-    <option value="2">2</option>
-  </select>
-  <svg width="960" height="600"></svg>
-
   <!-- slider code -->
-  <!-- <div slider id="slider-distance">
+  <div slider id="slider-distance">
     <div>
       <div inverse-left style="width:100%;"></div>
       <div inverse-right style="width:100%;"></div>
@@ -317,8 +291,22 @@
     
     // use this variable for all queries involving the slider's Max
     var CPMax = (value/100) * 5000;" />
-  </div>  -->
+  </div> 
 <!-- slider code end -->
+<div id="bars">
+    <form class="buttons" id="dex_Order" method="post" action="histogram.php">
+      <input name="dex_Order" type="submit" value="Pokemon ID">
+    </form>
+
+    <form class="buttons" id="type_Order" method="post" action="histogram.php">
+      <input name="type_Order" type="submit" value="Type">
+    </form>
+
+    <form class="buttons" id="CP_Order" method="post" action="histogram.php">
+        <input name="CP_Order" type="submit" value="Max CP">
+    </form>
+</div>
+<svg id="SVGdiv" width="960" height="440"></svg>
 
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="js/jquery-3.6.0.min.js"></script>
@@ -328,7 +316,7 @@
     // console.log(data);
 
     function cleanType(x){
-      var tempType = data[x].Pokemon_Type.split(', ');
+      var tempType = x.Pokemon_Type.split(', ');
       var tempTypeFinal = tempType[0].replace("[","").replace("'","").replace("'","").replace("]","");
       return tempTypeFinal;
     }
@@ -344,6 +332,9 @@
           return '#EE8130'
         }
         else if (x == 'Water'){
+          return '#6390F0'
+        }
+        else if (x == 'Electric'){
           return '#F7D02C'
         }
         else if (x == 'Grass'){
@@ -393,7 +384,9 @@
         }
       };
       
-          var svg = d3.select("svg"),
+      $(document).ready(function(event){
+
+          var svg = d3.select("#SVGdiv"),
               margin = {top: 20, right: 20, bottom: 30, left: 40},
               width = +svg.attr("width") - margin.left - margin.right,
               height = +svg.attr("height") - margin.top - margin.bottom;
@@ -403,19 +396,9 @@
 
           var g = svg.append("g")
               .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-          // create a variable that will hold the loaded data
-          var datahold;
-
-          
-          
-          // put the original data in tsv
-          datahold = data;
-
-          
           
           // set the domains of the axes
-          x.domain(data.map(function(d) { return d.Data_ID; }));
+          x.domain(0,data.length);
           y.domain([0, 5000]);
 
           // add the svg elements
@@ -433,46 +416,30 @@
               .attr("dy", "0.71em")
               .attr("text-anchor", "end")
               .text("Max CP");
-          
-          // create the bars
+              
+            var listLen =[];
+            
+            function data_index(temp){
+              listLen.push(temp);
+              var tempNum = listLen.length;
+              var xpos = (width/data.length) * tempNum;
+              return xpos;
+            }
+
           g.selectAll(".bar")
             .data(data)
             .enter().append("rect")
               .attr("class", "bar")
-              .attr("x", function(d) { return x(d.Data_ID); })
+              .attr("x", function(d) { return data_index(d.Max_CP); })
               .attr("y", function(d) { return y(d.Max_CP); })
               .attr("width", width/data.length)
               .attr("height", function(d) { return height - y(d.Max_CP); })
-              .attr("fill", function(d){ return typeColor(cleanType(d.Data_ID - 1))});
+              .attr("fill", function(d){ return typeColor(cleanType(d))});
 
-          // add a change event handler 
-          d3.select("#filter").on("change", function() {
-              applyFilter(this.value);
-            });
 
-          // call this whenever the filter changes
-          function applyFilter(value) {
-            // filter the data
-            var data = datahold.filter(function(d) {return d.group === value;})
-
-            // update the bars
-            d3.selectAll(".bar")
-              .data(data)
-              .transition().duration(1000)
-              .attr("x", function(d) { return x(d.Data_ID); })
-              .attr("y", function(d) { return y(d.Max_CP); })
-              .attr("height", function(d) { return height - y(d.Max_CP); });
-          }
-   
-    </script>
-
-    <script >
-    $(document).ready(function(event){
-      $('#CP_Order').on('submit', function () {
-
-        
       });
-    });
-  </script>
+                  
+    </script>  
+
     </body>
 </html>
