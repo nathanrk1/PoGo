@@ -65,14 +65,14 @@
     $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats";
 
     if($_REQUEST["dex_Order"]){
-      $_SESSION['MinCP'] = $_POST["CPMin"];
-      $_SESSION['MaxCP'] = $_POST["CPMax"];
-
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats ORDER BY Data_ID;";
     }
 
     if($_REQUEST["type_Order"]){
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats ORDER BY Pokemon_Type ASC";
+      $_SESSION['MinCP'] = $_POST["CPMin"];
+      $_SESSION['MaxCP'] = $_POST["CPMax"];
+
+      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']."ORDER BY Pokemon_Type ASC";
     }
 
     if($_REQUEST["CP_Order"]){
@@ -163,11 +163,11 @@
 <svg id="SVGdiv" width="960" height="440"></svg>
 <div id="bars">
     <form class="buttons" id="dex_Order" method="post" action="histogram.php">
-      <input onclick="passnum()" name="dex_Order" type="submit" value="Pokemon ID">
+      <input name="dex_Order" type="submit" value="Pokemon ID">
     </form>
 
     <form class="buttons" id="type_Order" method="post" action="histogram.php">
-      <input name="type_Order" type="submit" value="Type">
+      <input onclick="passnum()" name="type_Order" type="submit" value="Type">
     </form>
 
     <form class="buttons" id="CP_Order" method="post" action="histogram.php">
