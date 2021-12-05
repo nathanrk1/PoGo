@@ -65,8 +65,8 @@
     $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats";
 
     if($_REQUEST["dex_Order"]){
-      // $_SESSION['MinCP'] = $_POST["CPMin"];
-      // $_SESSION['MaxCP'] = $_POST["CPMax"];
+      $_SESSION['MinCP'] = $_POST["CPMin"];
+      $_SESSION['MaxCP'] = $_POST["CPMax"];
 
       $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
     }
