@@ -18,15 +18,16 @@
           .axis--x path {
             display: none;
           }
-          #bars {
+          
+          .histofilter {
               position: absolute;
-              margin-top: 27.3em;
+              margin-top: 27em;
           }
 
-          #apply_filter {
+          .apply_filter {
               position: absolute;
-              top: 1.2em;
-              margin-left:10em;
+              top: 1.45em;
+              margin-left:11.5em;
           }
 
           svg {
@@ -59,31 +60,60 @@
       die("Connection failed: " . $conn->connect_error);
     }
 
+    //baseline input
     $_SESSION['MinCP'] = 0;
     $_SESSION['MaxCP'] = 5000;
 
+
     $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats";
 
+    //switch to dex sort
     if($_REQUEST["dex_Order"]){
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats ORDER BY Data_ID;";
-    }
-
-    if($_REQUEST["type_Order"]){
-      $_SESSION['MinCP'] = $_POST["CPMin"];
-      $_SESSION['MaxCP'] = $_POST["CPMax"];
-
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']."ORDER BY Pokemon_Type ASC";
-    }
-
-    if($_REQUEST["CP_Order"]){
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats ORDER BY Max_CP ASC";
-    }
-
-    if($_REQUEST["apply_filter"]){
+      $_SESSION['Sort'] = "ID";
       $_SESSION['MinCP'] = $_POST["CPMin"];
       $_SESSION['MaxCP'] = $_POST["CPMax"];
 
       $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+    }
+
+    //switch to type sort
+    if($_REQUEST["type_Order"]){
+      $_SESSION['Sort'] = "Type";
+      $_SESSION['MinCP'] = $_POST["CPMin"];
+      $_SESSION['MaxCP'] = $_POST["CPMax"];
+
+      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+    }
+
+    //switch to cp sort
+    if($_REQUEST["CP_Order"]){
+      $_SESSION['Sort'] = "CP";
+      $_SESSION['MinCP'] = $_POST["CPMin"];
+      $_SESSION['MaxCP'] = $_POST["CPMax"];
+
+      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+
+    }
+
+    // Apply filter
+    if($_REQUEST["apply_filter"]){
+      $_SESSION['MinCP'] = $_POST["CPMin"];
+      $_SESSION['MaxCP'] = $_POST["CPMax"];
+
+      //for id sort
+      if($_SESSION['Sort'] == "ID"){
+        $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+      }
+
+      //for type sort
+      if($_SESSION['Sort'] == "Type"){
+        $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+      }
+
+      //for CP sort
+      if($_SESSION['Sort'] == "CP"){
+        $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+      }
     }
 
     // echo ($sql);
@@ -146,11 +176,6 @@
 
   </script>
 
-  <form class="buttons" id="apply_filter" method="post" action="histogram.php">
-      <input onclick="passnum()" name="apply_filter" type="submit" value="Apply"/>
-      <input type="hidden" id="CPMin" name="CPMin"/>
-      <input type="hidden" id="CPMax" name="CPMax"/>
-  </form>
   </div> 
   
 <!-- slider code end -->
@@ -162,17 +187,16 @@
 <div id="slider-range"></div>
 <svg id="SVGdiv" width="960" height="440"></svg>
 <div id="bars">
-    <form class="buttons" id="dex_Order" method="post" action="histogram.php">
-      <input name="dex_Order" type="submit" value="Pokemon ID">
-    </form>
-
-    <form class="buttons" id="type_Order" method="post" action="histogram.php">
-      <input onclick="passnum()" name="type_Order" type="submit" value="Type">
-    </form>
-
-    <form class="buttons" id="CP_Order" method="post" action="histogram.php">
-        <input name="CP_Order" type="submit" value="Max CP">
-    </form>
+<form class="buttons" id="apply_filter" method="post" action="histogram.php">
+      <input onclick="passnum()" class="apply_filter" name="apply_filter" type="submit" value="Apply"/>
+      <div class="histofilter">
+        <input onclick="passnum()" name="dex_Order" type="submit" value="Pokemon ID">
+        <input onclick="passnum()" name="type_Order" type="submit" value="Type">
+        <input onclick="passnum()" name="CP_Order" type="submit" value="Max CP">
+    </div>
+      <input type="hidden" id="CPMin" name="CPMin"/>
+      <input type="hidden" id="CPMax" name="CPMax"/>
+  </form>
 
 </div>
 
