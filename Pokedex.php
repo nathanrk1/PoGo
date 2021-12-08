@@ -175,6 +175,17 @@ include("phpConnect.php")
                 $('#runknown').remove();
                 $('#galar').remove();
 
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = true;
+                document.getElementById("b_kanto").disabled = false;
+                document.getElementById("b_johto").disabled = false;
+                document.getElementById("b_hoenn").disabled = false;
+                document.getElementById("b_sinnoh").disabled = false;
+                document.getElementById("b_unova").disabled = false;
+                document.getElementById("b_kalos").disabled = false;
+                document.getElementById("b_runknown").disabled = false;
+                document.getElementById("b_galar").disabled = false;
+              
             //all
             var height = "822em";
             var svg = d3.select("#dex").append("svg").attr("id","all").attr("width", width).attr("height", height);
@@ -278,6 +289,17 @@ include("phpConnect.php")
                 $('#kalos').remove();
                 $('#runknown').remove();
                 $('#galar').remove();
+
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = false;
+                document.getElementById("b_kanto").disabled = true;
+                document.getElementById("b_johto").disabled = false;
+                document.getElementById("b_hoenn").disabled = false;
+                document.getElementById("b_sinnoh").disabled = false;
+                document.getElementById("b_unova").disabled = false;
+                document.getElementById("b_kalos").disabled = false;
+                document.getElementById("b_runknown").disabled = false;
+                document.getElementById("b_galar").disabled = false;
 
             //kanto
             var height = "163em";
@@ -383,6 +405,17 @@ include("phpConnect.php")
                 $('#runknown').remove();
                 $('#galar').remove();
 
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = false;
+                document.getElementById("b_kanto").disabled = false;
+                document.getElementById("b_johto").disabled = true;
+                document.getElementById("b_hoenn").disabled = false;
+                document.getElementById("b_sinnoh").disabled = false;
+                document.getElementById("b_unova").disabled = false;
+                document.getElementById("b_kalos").disabled = false;
+                document.getElementById("b_runknown").disabled = false;
+                document.getElementById("b_galar").disabled = false;
+
             //kanto
             var height = "98em";
             var svg = d3.select("#dex").append("svg").attr("id","johto").attr("width", width).attr("height", height);
@@ -486,6 +519,17 @@ include("phpConnect.php")
                 $('#kalos').remove();
                 $('#runknown').remove();
                 $('#galar').remove();
+
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = false;
+                document.getElementById("b_kanto").disabled = false;
+                document.getElementById("b_johto").disabled = false;
+                document.getElementById("b_hoenn").disabled = true;
+                document.getElementById("b_sinnoh").disabled = false;
+                document.getElementById("b_unova").disabled = false;
+                document.getElementById("b_kalos").disabled = false;
+                document.getElementById("b_runknown").disabled = false;
+                document.getElementById("b_galar").disabled = false;
 
             //hoenn
             var height = "130em";
@@ -591,6 +635,17 @@ include("phpConnect.php")
                 $('#runknown').remove();
                 $('#galar').remove();
 
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = false;
+                document.getElementById("b_kanto").disabled = false;
+                document.getElementById("b_johto").disabled = false;
+                document.getElementById("b_hoenn").disabled = false;
+                document.getElementById("b_sinnoh").disabled = true;
+                document.getElementById("b_unova").disabled = false;
+                document.getElementById("b_kalos").disabled = false;
+                document.getElementById("b_runknown").disabled = false;
+                document.getElementById("b_galar").disabled = false;
+
             //sinnoh
             var height = "114em";
             var svg = d3.select("#dex").append("svg").attr("id","sinnoh").attr("width", width).attr("height", height);
@@ -692,6 +747,17 @@ include("phpConnect.php")
               $('#kalos').remove();
               $('#runknown').remove();
               $('#galar').remove();
+
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = false;
+                document.getElementById("b_kanto").disabled = false;
+                document.getElementById("b_johto").disabled = false;
+                document.getElementById("b_hoenn").disabled = false;
+                document.getElementById("b_sinnoh").disabled = false;
+                document.getElementById("b_unova").disabled = true;
+                document.getElementById("b_kalos").disabled = false;
+                document.getElementById("b_runknown").disabled = false;
+                document.getElementById("b_galar").disabled = false;
 
               //unova
               var height = "163em";
@@ -796,6 +862,17 @@ include("phpConnect.php")
                 $('#runknown').remove();
                 $('#galar').remove();
 
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = false;
+                document.getElementById("b_kanto").disabled = false;
+                document.getElementById("b_johto").disabled = false;
+                document.getElementById("b_hoenn").disabled = false;
+                document.getElementById("b_sinnoh").disabled = false;
+                document.getElementById("b_unova").disabled = false;
+                document.getElementById("b_kalos").disabled = true;
+                document.getElementById("b_runknown").disabled = false;
+                document.getElementById("b_galar").disabled = false;
+                
                 var height = "82em";
                 var svg = d3.select("#dex").append("svg").attr("id", "kalos").attr("width", width).attr("height", height);
                 var count = 718;
@@ -897,6 +974,17 @@ include("phpConnect.php")
                 $('#unova').remove();
                 $('#kalos').remove();
                 $('#galar').remove();
+                
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = false;
+                document.getElementById("b_kanto").disabled = false;
+                document.getElementById("b_johto").disabled = false;
+                document.getElementById("b_hoenn").disabled = false;
+                document.getElementById("b_sinnoh").disabled = false;
+                document.getElementById("b_unova").disabled = false;
+                document.getElementById("b_kalos").disabled = false;
+                document.getElementById("b_runknown").disabled = true;
+                document.getElementById("b_galar").disabled = false;
 
                 var height = "8em";
                 var svg = d3.select("#dex").append("svg").attr("id","runknown").attr("width", width).attr("height", height);
@@ -999,6 +1087,17 @@ include("phpConnect.php")
                 $('#unova').remove();
                 $('#kalos').remove();
                 $('#runknown').remove();
+
+                //disabling button function. and reenabling all other buttons
+                document.getElementById("b_all").disabled = false;
+                document.getElementById("b_kanto").disabled = false;
+                document.getElementById("b_johto").disabled = false;
+                document.getElementById("b_hoenn").disabled = false;
+                document.getElementById("b_sinnoh").disabled = false;
+                document.getElementById("b_unova").disabled = false;
+                document.getElementById("b_kalos").disabled = false;
+                document.getElementById("b_runknown").disabled = false;
+                document.getElementById("b_galar").disabled = true;
 
             var height = "90em";
             var svg = d3.select("#dex").append("svg").attr("id", "galar").attr("width", width).attr("height", height);
