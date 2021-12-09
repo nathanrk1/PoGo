@@ -10,7 +10,7 @@
         .bar:hover    { fill: brown; }
         .axis--x path { display: none; }
         #polar        { position:absolute; left: 45em; }
-        .histofilter  { position: absolute; top: 31em; left: 35em; }
+        .histofilter  { position: absolute; top: 38em; left: 20.5em; }
         .apply_filter { position: absolute; top: 10em; left: 35em; }
         svg           { position: absolute; margin-top: 0.925em; }
         select        { margin-left: 3.750em; }
@@ -576,9 +576,9 @@
 <form class="buttons" id="apply_filter" method="post" action="summary.php">
       <input class="button" onclick="callfunctions();" class="apply_filter" name="apply_filter" type="submit" value="Apply" style="top: 10em; left:46em; position:absolute;">
       <div class="histofilter">
-        <input class="button" onclick="callfunctions();" name="dex_Order" type="submit" value="Pokemon ID" style="top: 8em; left:10em; position:absolute;">
-        <input class="button" onclick="callfunctions();" name="type_Order" type="submit" value="Type" style="top: 8em; left:3em; position:absolute;">
-        <input class="button" onclick="callfunctions();" name="CP_Order" type="submit" value="Max CP" style="top: 8em; left:-4em; position:absolute;">
+        <input class="button" onclick="callfunctions();" name="dex_Order" type="submit" value="Pokemon ID">
+        <input class="button" onclick="callfunctions();" name="type_Order" type="submit" value="Type" >
+        <input class="button" onclick="callfunctions();" name="CP_Order" type="submit" value="Max CP">
       </div>
 
         <select name="Type2" id="Type2" class="dropbtn" style="top: 10em; left:39em; position:absolute;">
@@ -856,7 +856,15 @@
             .attr("fill", "black")
             .style("font-size", 15 +'px')
             .text("Buddy Distance: " + d.Buddy_Distance)
-            .style("text-anchor", "middle");;
+            .style("text-anchor", "middle");
+
+            iD.append("text")
+            .attr("x", 15.5 + "em")
+            .attr("y", 5.25 + "em")
+            .attr("fill", "black")
+            .style("font-size", 15 +'px')
+            .text("Catch Rate: " + CatchRateConvert(d.Catch_Rate))
+            .style("text-anchor", "middle");
 
         })//END MOUSEOVER
 
@@ -881,7 +889,7 @@
     ////////////////////////////////////////////////////////////////////////////////////////////////
     </script> 
 
-    <canvas id="polar" width="400" height="400" style="left:900px;"></canvas> 
+    <canvas id="polar" width="400" height="400" style="left:925px;"></canvas> 
     <script>
     
         var data= <?php echo $json_array; ?>;
