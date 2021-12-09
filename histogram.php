@@ -19,15 +19,21 @@
             display: none;
           }
           
+          #polar{
+            position:absolute;
+            left: 45em;
+          }
+
           .histofilter {
               position: absolute;
-              margin-top: 27em;
+              top: 31em;
+              left: 8.75em;
           }
 
           .apply_filter {
               position: absolute;
               top: 1.45em;
-              margin-left:11.5em;
+              left:47em;
           }
 
           svg {
@@ -42,6 +48,26 @@
         .buttons{
           display: inline-block;
         }
+
+        #slider-range{
+          position:absolute;
+          width:12.500em;
+          top: 1.45em;
+          left: 11.5em;
+        }
+
+        #Type1{
+          position:absolute;
+          top: 1.6em;
+          left: 27em;
+        }
+        #Type2{
+          position:absolute;
+          top: 1.6em;
+          left: 35em;
+        }
+        div.tooltip   { position: absolute; text-align: center; font: 12px sans-serif; background: lightsteelblue; 
+                      border-radius: 8px; pointer-events: none; width: 400px; height: 400px; }
     </style>
 </head>
 
@@ -66,7 +92,7 @@
     $_SESSION['Type1'] = $_POST["Type1"];
     $_SESSION['Type2'] = $_POST["Type2"];
 
-    $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats";
+    $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats";
 
     //switch to dex sort
     if($_REQUEST["dex_Order"]){
@@ -80,17 +106,17 @@
         if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
           //for id sort
           if($_SESSION['Sort'] == "ID"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
           }
 
           //for type sort
           if($_SESSION['Sort'] == "Type"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
           }
 
           //for CP sort
           if($_SESSION['Sort'] == "CP"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
           }
 
       }//end normal filter 
@@ -99,17 +125,17 @@
       if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end only Type1 filter 
 
@@ -117,17 +143,17 @@
       if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end only Type 2 filter 
 
@@ -135,17 +161,17 @@
       if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end Both Types filter 
       
@@ -163,17 +189,17 @@
         if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
           //for id sort
           if($_SESSION['Sort'] == "ID"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
           }
 
           //for type sort
           if($_SESSION['Sort'] == "Type"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
           }
 
           //for CP sort
           if($_SESSION['Sort'] == "CP"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
           }
 
       }//end normal filter 
@@ -182,17 +208,17 @@
       if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end only Type1 filter 
 
@@ -200,17 +226,17 @@
       if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end only Type 2 filter 
 
@@ -218,17 +244,17 @@
       if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end Both Types filter 
     }//end type sort
@@ -245,17 +271,17 @@
         if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
           //for id sort
           if($_SESSION['Sort'] == "ID"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
           }
 
           //for type sort
           if($_SESSION['Sort'] == "Type"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
           }
 
           //for CP sort
           if($_SESSION['Sort'] == "CP"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
           }
 
       }//end normal filter 
@@ -264,17 +290,17 @@
       if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end only Type1 filter 
 
@@ -282,17 +308,17 @@
       if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end only Type 2 filter 
 
@@ -300,17 +326,17 @@
       if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end Both Types filter 
       
@@ -327,17 +353,17 @@
         if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
           //for id sort
           if($_SESSION['Sort'] == "ID"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
           }
 
           //for type sort
           if($_SESSION['Sort'] == "Type"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
           }
 
           //for CP sort
           if($_SESSION['Sort'] == "CP"){
-            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+            $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
           }
 
       }//end normal filter 
@@ -346,17 +372,17 @@
       if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end only Type1 filter 
 
@@ -364,17 +390,17 @@
       if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end only Type 2 filter 
 
@@ -382,17 +408,17 @@
       if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
         //for id sort
         if($_SESSION['Sort'] == "ID"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
         }
 
         //for type sort
         if($_SESSION['Sort'] == "Type"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
         }
 
         //for CP sort
         if($_SESSION['Sort'] == "CP"){
-          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          $sql = "SELECT Data_ID, Form, Attack, Defense, Stamina, Catch_Rate, Buddy_Distance, Max_CP, Pokemon_ID, Pokemon_Name, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
         }
       }//end Both Types filter 
 
@@ -411,6 +437,7 @@
   <script src="https://d3js.org/d3.v4.js"></script>
   <script src="js/jquery-3.6.0.min.js"></script>
   <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script> 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js"></script> 
 
   <script>
     var CPMin = 0;
@@ -497,7 +524,7 @@
 </p>
  
 <div id="slider-range"></div>
-<svg id="SVGdiv" width="960" height="440"></svg>
+<svg id="SVGdiv" width="600" height="440"></svg>
 <div id="bars">
 <form class="buttons" id="apply_filter" method="post" action="histogram.php">
       <input onclick="callfunctions();" class="apply_filter" name="apply_filter" type="submit" value="Apply"/>
@@ -567,65 +594,28 @@
     // histogram code 
 
       //determines bar color based on primary type
-      function typeColor(x){
-        if (x =='Normal'){
-          return '#A8A77A'
-        }
-        else if (x == 'Fire'){
-          return '#EE8130'
-        }
-        else if (x == 'Water'){
-          return '#6390F0'
-        }
-        else if (x == 'Electric'){
-          return '#F7D02C'
-        }
-        else if (x == 'Grass'){
-          return '#7AC74C'
-        }
-        else if (x == 'Ice'){
-          return '#96D9D6'
-        }
-        else if (x == 'Fighting'){
-          return '#C22E28'
-        }
-        else if (x == 'Poison'){
-          return '#A33EA1'
-        }
-        else if (x == 'Ground'){
-          return '#E2BF65'
-        }
-        else if (x == 'Flying'){
-          return '#A98FF3'
-        }
-        else if (x == 'Psychic'){
-          return '#F95587'
-        }
-        else if (x == 'Bug'){
-          return '#A6B91A'
-        }
-        else if (x == 'Rock'){
-          return '#B6A136'
-        }
-        else if (x == 'Ghost'){
-          return '#735797'
-        }
-        else if (x == 'Dragon'){
-          return '#6F35FC'
-        }
-        else if (x == 'Dark'){
-          return '#705746'
-        }
-        else if (x == 'Steel'){
-          return '#B7B7CE'
-        }
-        else if (x == 'Fairy'){
-          return '#D685AD'
-        }
-        else{
-          return '#000'
-        }
-      };
+      //DETERMINES COLOR BASED ON PRIMARY TYPE
+    function typeColor(x){
+      if      (x =='Normal'   ){ return '#A8A77A' }
+      else if (x == 'Fire'    ){ return '#EE8130' }
+      else if (x == 'Water'   ){ return '#6390F0' }
+      else if (x == 'Electric'){ return '#F7D02C' }
+      else if (x == 'Grass'   ){ return '#7AC74C' }
+      else if (x == 'Ice'     ){ return '#96D9D6' }
+      else if (x == 'Fighting'){ return '#C22E28' }
+      else if (x == 'Poison'  ){ return '#A33EA1' }
+      else if (x == 'Ground'  ){ return '#E2BF65' }
+      else if (x == 'Flying'  ){ return '#A98FF3' }
+      else if (x == 'Psychic' ){ return '#F95587' }
+      else if (x == 'Bug'     ){ return '#A6B91A' }
+      else if (x == 'Rock'    ){ return '#B6A136' }
+      else if (x == 'Ghost'   ){ return '#735797' }
+      else if (x == 'Dragon'  ){ return '#6F35FC' }
+      else if (x == 'Dark'    ){ return '#705746' }
+      else if (x == 'Steel'   ){ return '#B7B7CE' }
+      else if (x == 'Fairy'   ){ return '#D685AD' }
+      else                     { return '#000'    }
+    };
       
       $(document).ready(function(event){
 
@@ -677,11 +667,461 @@
               .attr("y", function(d) { return y(d.Max_CP); })
               .attr("width", width/data.length)
               .attr("height", function(d) { return height - y(d.Max_CP); })
-              .attr("fill", function(d){ return typeColor(cleanType(d))});
+              .attr("fill", function(d){ return typeColor(cleanType(d))})
+
+          ////////////////////////////////////////////////////////////////////////////////////////////////
+          /////////////////////////////////// TOOLTIP WITH RADAR CHART ///////////////////////////////////
+          ///////////////////////////////////////////////////////////////////////////////////////////////
 
 
-      });
-                  
+            //MOUSEOVER                                                 
+        .on("mouseover", function(d) {		  
+          tDiv.transition()		
+              .duration(200)		
+              .style("opacity", 1)
+          tDiv	.html("<div id='tipDiv'></div>")	    /// Tooltip location - h + w are determined in tooltip css
+              .style("right", 100 + "px")		
+              .style("top", 95 + "px");
+              
+          var tSvg = d3.select("#tipDiv")
+              .append("svg")
+              .attr("width", 600)
+              .attr("height", 600)
+              .style("left",  0)
+              .style("top", 0)
+              .attr("transform", "scale(0.6,0.6)");
+
+            
+          //CONVERT CATCH RATE TO PERCENT
+          function CatchRateConvert(x){
+            if (x==100){
+              return 100;
+            }
+            else{
+              return x * 100;
+            }
+          }
+
+          //LOAD DATA
+          let features = ["Attack", "Defense", "Stamina"];
+          let rdata    = [{Attack: parseInt(d.Attack), Defense: parseInt(d.Defense), Stamina: parseInt(d.Stamina)}];
+          var point = {};
+
+          //SCALE
+          let radialScale = d3.scaleLinear()
+            .domain([0,500])
+            .range([0,250]);
+          let ticks = [100,200,300,400,500];
+
+          ticks.forEach(t =>
+          tSvg.append("circle")
+            .attr("cx", 200)
+            .attr("cy", 200)
+            .attr("fill", "none")
+            .attr("stroke", "gray")
+            .attr("r", radialScale(t))
+          );
+
+          ticks.forEach(t =>
+          tSvg.append("text")
+            .attr("x", 190)
+            .attr("y", 200 - radialScale(t))
+            .text(t.toString())
+          );
+
+          function angleToCoordinate(angle, value){
+            let x = Math.cos(angle) * radialScale(value);
+            let y = Math.sin(angle) * radialScale(value);
+            return {"x": 200 + x, "y": 200 + y};
+          }//END ANGLETOCOORDINATE
+
+          for (var i = 0; i < features.length; i++) {
+            let ft_name = features[i];
+            let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+            let line_coordinate = angleToCoordinate(angle, 500);
+            let label_coordinate = angleToCoordinate(angle, 500.5);
+
+            //draw axis line
+            tSvg.append("line")
+            .attr("x1", 200)
+            .attr("y1", 200)
+            .attr("x2", line_coordinate.x)
+            .attr("y2", line_coordinate.y)
+            .attr("stroke","black");
+
+            //draw axis label
+            tSvg.append("text")
+            .attr("x", label_coordinate.x)
+            .attr("y", label_coordinate.y)
+            .text(ft_name);
+          }//END FOR
+
+          let line = d3.line()
+            .x(d => d.x)
+            .y(d => d.y);
+
+          function getPathCoordinates(rdata_point){
+            let coordinates = [];
+            for (var i = 0; i < features.length; i++){
+                let ft_name = features[i];
+                let angle = (Math.PI / 2) + (2 * Math.PI * i / features.length);
+                coordinates.push(angleToCoordinate(angle, rdata_point[ft_name]));
+            }//END FOR
+            return coordinates;
+          }//END GETPATHCOORDINATES
+
+          for (var i = 0; i < rdata.length; i ++){
+            let d = rdata[i];
+            let coordinates = getPathCoordinates(d);
+
+            //DRAW PATH
+            tSvg.append("path")
+            .datum(coordinates)
+            .attr("d",line)
+            .attr("stroke-width", 3)
+            .attr("stroke", "red")
+            .attr("fill", "red")
+            .attr("stroke-opacity", 1)
+            .attr("opacity", 0.5);
+            
+          }//END FOR
+
+          tSvg.append("text")
+            .attr("x", 200)
+            .attr("y", 100)
+            .attr("fill", "black")
+            .text(d.Pokemon_Name);
+
+        })//END MOUSEOVER
+
+        .on("mouseout", function(d) {
+          tDiv.transition()		
+            .duration(500)		
+            .style("opacity", 0);
+
+        });//END MOUSE OUT
+
+    }); //END DOCUMENT READY	
+
+    //TOOLTIP DIV
+    var tDiv = d3.select("body").append("div")	
+      .attr("class", "tooltip")		
+      .attr("width", 600)
+      .attr("height", 600)
+      .style("opacity", 0);
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////// POLAR CHART BEGIN ///////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////
+    </script> 
+
+    <canvas id="polar" width="400" height="400"></canvas> 
+    <script>
+    
+        var data= <?php echo $json_array; ?>;
+        
+        //cleaning the type data for graph
+        function cleanType1(x){
+          var tempType = x.Pokemon_Type.split(', ');
+          var tempTypeFinal1 = tempType[0].replace("[","").replace("'","").replace("'","").replace("]","");
+          return tempTypeFinal1;
+        }
+
+        function cleanType2(x){
+          var commasearch = x.Pokemon_Type.search(",");
+
+          if(commasearch == -1){
+            return "";
+          }
+          else{
+          var tempType = x.Pokemon_Type.split(', ');
+          var tempTypeFinal2 = tempType[1].replace("[","").replace("'","").replace("'","").replace("]","");
+          return tempTypeFinal2;
+          }
+        }
+
+        //DETERMINES COLOR BASED ON PRIMARY TYPE
+    function typeColor(x){
+      if      (x =='Normal'   ){ return '#A8A77A' }
+      else if (x == 'Fire'    ){ return '#EE8130' }
+      else if (x == 'Water'   ){ return '#6390F0' }
+      else if (x == 'Electric'){ return '#F7D02C' }
+      else if (x == 'Grass'   ){ return '#7AC74C' }
+      else if (x == 'Ice'     ){ return '#96D9D6' }
+      else if (x == 'Fighting'){ return '#C22E28' }
+      else if (x == 'Poison'  ){ return '#A33EA1' }
+      else if (x == 'Ground'  ){ return '#E2BF65' }
+      else if (x == 'Flying'  ){ return '#A98FF3' }
+      else if (x == 'Psychic' ){ return '#F95587' }
+      else if (x == 'Bug'     ){ return '#A6B91A' }
+      else if (x == 'Rock'    ){ return '#B6A136' }
+      else if (x == 'Ghost'   ){ return '#735797' }
+      else if (x == 'Dragon'  ){ return '#6F35FC' }
+      else if (x == 'Dark'    ){ return '#705746' }
+      else if (x == 'Steel'   ){ return '#B7B7CE' }
+      else if (x == 'Fairy'   ){ return '#D685AD' }
+      else                     { return '#000'    }
+    };
+
+        function addAlpha(color, opacity) {
+                // coerce values so ti is between 0 and 1.
+                var _opacity = Math.round(Math.min(Math.max(opacity || 1, 0), 1) * 255);
+                return color + _opacity.toString(16).toUpperCase();
+              }
+          // addAlpha('FF0000', 1); // returns 'FF0000FF'
+          // addAlpha('FF0000', 0.5); // returns 'FF000080'
+                
+              var normal   = 0;
+              var water    = 0;
+              var electric = 0;
+              var grass    = 0;
+              var ice      = 0;
+              var fighting = 0;
+              var poison   = 0;
+              var ground   = 0;
+              var flying   = 0;
+              var psychic  = 0;
+              var bug      = 0;
+              var rock     = 0;
+              var ghost    = 0;
+              var dragon   = 0;
+              var steel    = 0;
+              var fairy    = 0;
+
+              for(i=0; i<data.length; i++){
+                var item = data[i];
+
+                //normal
+                if(cleanType1(item) == "Normal"){
+                  normal = normal + 1;
+                }
+                if(cleanType2(item) == "Normal"){
+                  normal = normal + 1;
+                }
+
+                //water
+                if(cleanType1(item) == "Water"){
+                  water = water + 1;
+                }
+                if(cleanType2(item) == "Water"){
+                  water = water + 1;
+                }
+
+                //electric
+                if(cleanType1(item) == "Electric"){
+                  electric = electric + 1;
+                }
+                if(cleanType2(item) == "Electric"){
+                  electric = electric + 1;
+                }
+
+                //grass
+                if(cleanType1(item) == "Grass"){
+                  grass = grass + 1;
+                }
+                if(cleanType2(item) == "Grass"){
+                  grass = grass + 1;
+                }
+
+                //ice
+                if(cleanType1(item) == "Ice"){
+                  ice = ice + 1;
+                }
+                if(cleanType2(item) == "Ice"){
+                  ice = ice + 1;
+                }
+                
+                //fighting
+                if(cleanType1(item) == "Fighting"){
+                  fighting = fighting + 1;
+                }
+                if(cleanType2(item) == "Fighting"){
+                  fighting = fighting + 1;
+                }
+
+                //poison
+                if(cleanType1(item) == "Poison"){
+                  poison = poison + 1;
+                }
+                if(cleanType2(item) == "Poison"){
+                  poison = poison + 1;
+                }
+
+                //ground
+                if(cleanType1(item) == "Ground"){
+                  ground = ground + 1;
+                }
+                if(cleanType2(item) == "Ground"){
+                  ground = ground + 1;
+                }
+
+                //flying
+                if(cleanType1(item) == "Flying"){
+                  flying = flying + 1;
+                }
+                if(cleanType2(item) == "Flying"){
+                  flying = flying + 1;
+                }
+
+                //psychic
+                if(cleanType1(item) == "Psychic"){
+                  psychic = psychic + 1;
+                }
+                if(cleanType2(item) == "Psychic"){
+                  psychic = psychic + 1;
+                }
+
+                  //bug
+                if(cleanType1(item) == "Bug"){
+                  bug = bug + 1;
+                }
+                if(cleanType2(item) == "Bug"){
+                  bug = bug + 1;
+                }
+
+                //rock
+                if(cleanType1(item) == "Rock"){
+                  rock = rock + 1;
+                }
+                if(cleanType2(item) == "Rock"){
+                  rock = rock + 1;
+                }
+
+                //ghost
+                if(cleanType1(item) == "Ghost"){
+                  ghost = ghost + 1;
+                }
+                if(cleanType2(item) == "Ghost"){
+                  ghost = ghost + 1;
+                }
+
+                //dragon
+                if(cleanType1(item) == "Dragon"){
+                  dragon = dragon + 1;
+                }
+                if(cleanType2(item) == "Dragon"){
+                  dragon = dragon + 1;
+                }
+
+                //steel
+                if(cleanType1(item) == "Steel"){
+                  steel = steel + 1;
+                }
+                if(cleanType2(item) == "Steel"){
+                  steel = steel + 1;
+                }
+
+                //fairy
+                if(cleanType1(item) == "Fairy"){
+                  fairy = fairy + 1;
+                }
+                if(cleanType2(item) == "Fairy"){
+                  fairy = fairy + 1;
+                }
+
+              };
+
+          var spiral = [// w  w w  . j  a  v  a  2s . c  om
+              {
+                  value: normal,
+                  color:typeColor('Normal'),
+                  highlight: addAlpha(typeColor('Normal'),.6),
+                  label: "Normal"
+              },
+              {
+                  value: water,
+                  color: typeColor('Water'),
+                  highlight: addAlpha(typeColor('Water'),.6),
+                  label: "Water"
+              },
+              {
+                  value: electric,
+                  color: typeColor('Electric'),
+                  highlight: addAlpha(typeColor('Electric'),.6),
+                  label: "Electric"
+              },
+              {
+                  value: grass,
+                  color: typeColor('Grass'),
+                  highlight: addAlpha(typeColor('Grass'),.6),
+                  label: "Grass"
+              },
+              {
+                  value: ice,
+                  color: typeColor('Ice'),
+                  highlight: addAlpha(typeColor('Ice'),.6),
+                  label: "Ice"
+              },
+              {
+                  value: fighting,
+                  color:typeColor('Fighting'),
+                  highlight: addAlpha(typeColor('Fighting'),.6),
+                  label: "Fighting"
+              },
+              {
+                  value: poison,
+                  color: typeColor('Poison'),
+                  highlight: addAlpha(typeColor('Poison'),.6),
+                  label: "Poison"
+              },
+              {
+                  value: ground,
+                  color: typeColor('Ground'),
+                  highlight: addAlpha(typeColor('Ground'),.6),
+                  label: "Ground"
+              },
+              {
+                  value: flying,
+                  color: typeColor('Flying'),
+                  highlight: addAlpha(typeColor('Flying'),.6),
+                  label: "Flying"
+              },
+              {
+                  value: psychic,
+                  color: typeColor('Psychic'),
+                  highlight: addAlpha(typeColor('Psychic'),.6),
+                  label: "Psychic"
+              },
+              {
+                  value: bug,
+                  color: typeColor('Bug'),
+                  highlight: addAlpha(typeColor('Bug'),.6),
+                  label: "Bug"
+              },
+              {
+                  value: rock,
+                  color:typeColor('Rock'),
+                  highlight: addAlpha(typeColor('Rock'),.6),
+                  label: "Rock"
+              },
+              {
+                  value: ghost,
+                  color: typeColor('Ghost'),
+                  highlight: addAlpha(typeColor('Ghost'),.6),
+                  label: "Ghost"
+              },
+              {
+                  value: dragon,
+                  color: typeColor('Dragon'),
+                  highlight: addAlpha(typeColor('Dragon'),.6),
+                  label: "Dragon"
+              },
+              {
+                  value: steel,
+                  color: typeColor('Steel'),
+                  highlight: addAlpha(typeColor('Steel'),.6),
+                  label: "Steel"
+              },
+              {
+                  value: fairy,
+                  color: typeColor('Fairy'),
+                  highlight: addAlpha(typeColor('Fairy'),.6),
+                  label: "Fairy"
+              }
+          ];
+          var ctx = document.getElementById("polar").getContext("2d");
+          var myNewChart = new Chart(ctx).PolarArea(spiral);
+        
     </script>  
 
     </body>
