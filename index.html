@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>PokeGo</title>
+    <style>
+    /* Nav Bar */
+    ul   { list-style-type: none; margin: 0em; padding: 0em; overflow: hidden; }
+    li   { float: left; }
+    li a { display: block;  color: white; text-align: center; padding: 0.875em 1em; text-decoration:none; font-size: 1.875em; }
+    li a:hover:not(#home) { background-color: #375855; }
+
+    /* General */
+    html { background: url(images/cute.jpg) center center no-repeat fixed; width: 100%; height: 100vh; background-size: cover; }
+    body{ font-size: 16px; font-family: Arial, Helvetica, sans-serif; }
+    #text{ color: white; position: absolute; top: 16.875em; left: 3.125em; }
+
+    </style>
+</head>
+<body>
+
+    <ul>
+        <li><a id="home" href="index.html"><img src="images/aipomoutline.png" height="45em"/></a></li>
+        <li><a href="Pokedex.php">Pokedex</a></li>
+        <li><a href="summary.php">Dashboard</a></li>
+    </ul>
+    
+    <div id="text">
+        Welcome to our site! We have made a dashboard with a histogram <br>
+        and polar chart to compare the Pokemon in Pokemon GO! The charts <br>
+        can be filtered by type and/or CP range, and can be sorted by Pokemon <br> 
+        ID, Pokemon type, or Max CP. The histogram is generated using D3 and the <br>
+        polar chart is from ChartJS.
+
+    </div>
+</body>
+</html>
+
