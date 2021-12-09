@@ -63,61 +63,113 @@
     //baseline input
     $_SESSION['MinCP'] = 0;
     $_SESSION['MaxCP'] = 5000;
-
+    // $_SESSION['Type1'] = '- Type1 -';
+    // $_SESSION['Type2'] = '- Type2 -';
 
     $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats";
 
     //switch to dex sort
     if($_REQUEST["dex_Order"]){
       $_SESSION['Sort'] = "ID";
-      $_SESSION['MinCP'] = $_POST["CPMin"];
-      $_SESSION['MaxCP'] = $_POST["CPMax"];
-
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
-    }
+      $_REQUEST["apply_filter"];
+    }//end dex sort
 
     //switch to type sort
     if($_REQUEST["type_Order"]){
       $_SESSION['Sort'] = "Type";
-      $_SESSION['MinCP'] = $_POST["CPMin"];
-      $_SESSION['MaxCP'] = $_POST["CPMax"];
-
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
-    }
+      $_REQUEST["apply_filter"];
+    }//end type sort
 
     //switch to cp sort
     if($_REQUEST["CP_Order"]){
       $_SESSION['Sort'] = "CP";
-      $_SESSION['MinCP'] = $_POST["CPMin"];
-      $_SESSION['MaxCP'] = $_POST["CPMax"];
-
-      $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
-
-    }
+      $_REQUEST["apply_filter"];
+    }//end CP Sort
 
     // Apply filter
     if($_REQUEST["apply_filter"]){
-      $_SESSION['MinCP'] = $_POST["CPMin"];
-      $_SESSION['MaxCP'] = $_POST["CPMax"];
+        $_SESSION['MinCP'] = $_POST["CPMin"];
+        $_SESSION['MaxCP'] = $_POST["CPMax"];
+        $_SESSION['Type1'] = $_POST["Type1"];
+        $_SESSION['Type2'] = $_POST["Type2"];
+        
+        //normal filter
+        if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
+          //for id sort
+          if($_SESSION['Sort'] == "ID"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          }
 
-      //for id sort
-      if($_SESSION['Sort'] == "ID"){
-        $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
-      }
+          //for type sort
+          if($_SESSION['Sort'] == "Type"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          }
 
-      //for type sort
-      if($_SESSION['Sort'] == "Type"){
-        $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
-      }
+          //for CP sort
+          if($_SESSION['Sort'] == "CP"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          }
 
-      //for CP sort
-      if($_SESSION['Sort'] == "CP"){
-        $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
-      }
-    }
+      }//end normal filter 
 
-    // echo ($sql);
-    // // exit();
+      //only Type 1
+      if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end only Type1 filter 
+
+      //only Type 2
+      if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end only Type 2 filter 
+
+      //Both Types
+      if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end Both Types filter 
+
+    }//end Request
+
+
+
     $result = $conn->query($sql);
 
     while($row = mysqli_fetch_assoc($result))
@@ -174,7 +226,37 @@
       document.getElementById("CPMax").value = giveMax();
       }
 
+    function select1(x) {
+
+      var option1 = x + "1";
+      
+      if (option1 == "- Type1 -1"){
+        option1 = "type1base";
+      }
+
+      var element = document.getElementById(option1);
+      element.value = selectedIndex;
+    }
+
+    function select2(x) {
+      
+      var option2 = x + "2";
+      
+      if (option2 == "- Type2 -2"){
+       option2 = "type2base";
+      }
+
+      var element = document.getElementById(option2);
+      element.value = selectedIndex;
+    }
+
+    function callfunctions(){
+      passnum();
+      select1('<?php echo  $_SESSION['Type1']; ?>');
+      select2('<?php echo  $_SESSION['Type2']; ?>');
+    }
   </script>
+  
 
   </div> 
   
@@ -188,12 +270,55 @@
 <svg id="SVGdiv" width="960" height="440"></svg>
 <div id="bars">
 <form class="buttons" id="apply_filter" method="post" action="histogram.php">
-      <input onclick="passnum()" class="apply_filter" name="apply_filter" type="submit" value="Apply"/>
+      <input onclick="callfunctions();" class="apply_filter" name="apply_filter" type="submit" value="Apply"/>
       <div class="histofilter">
-        <input onclick="passnum()" name="dex_Order" type="submit" value="Pokemon ID">
-        <input onclick="passnum()" name="type_Order" type="submit" value="Type">
-        <input onclick="passnum()" name="CP_Order" type="submit" value="Max CP">
-    </div>
+        <input onclick="callfunctions();" name="dex_Order" type="submit" value="Pokemon ID">
+        <input onclick="callfunctions();" name="type_Order" type="submit" value="Type">
+        <input onclick="callfunctions();" name="CP_Order" type="submit" value="Max CP">
+      </div>
+        <select name="Type1" id="Type1">
+            <option id="type1base"  value="- Type 1 -">- Type 1 -</option>
+            <option id="Normal1"    value="Normal">Normal</option>
+            <option id="Fire1"      value="Fire">Fire</option>
+            <option id="Water1"     value="Water">Water</option>
+            <option id="Electric1"  value="Electric">Electric</option>
+            <option id="Grass1"     value="Grass">Grass</option>
+            <option id="Ice1"       value="Ice">Ice</option>
+            <option id="Fighting1"  value="Fighting">Fighting</option>
+            <option id="Poison1"    value="Poison">Poison</option>
+            <option id="Ground1"    value="Ground">Ground</option>
+            <option id="Flying1"    value="Flying">Flying</option>
+            <option id="Psychic1"   value="Psychic">Psychic</option>
+            <option id="Bug1"       value="Bug">Bug</option>
+            <option id="Rock1"      value="Rock">Rock</option>
+            <option id="Ghost1"     value="Ghost">Ghost</option>
+            <option id="Dragon1"    value="Dragon">Dragon</option>
+            <option id="Dark1"      value="Dark">Dark</option>
+            <option id="Steel1"     value="Steel">Steel</option>
+            <option id="Fairy1"     value="Fairy">Fairy</option>
+        </select>
+
+        <select name="Type2" id="Type2">
+        <option id="type2base"  value="- Type 2 -">- Type 2 -</option>
+            <option id="Normal2"    value="Normal">Normal</option>
+            <option id="Fire2"      value="Fire">Fire</option>
+            <option id="Water2"     value="Water">Water</option>
+            <option id="Electric2"  value="Electric">Electric</option>
+            <option id="Grass2"     value="Grass">Grass</option>
+            <option id="Ice2"       value="Ice">Ice</option>
+            <option id="Fighting2"  value="Fighting">Fighting</option>
+            <option id="Poison2"    value="Poison">Poison</option>
+            <option id="Ground2"    value="Ground">Ground</option>
+            <option id="Flying2"    value="Flying">Flying</option>
+            <option id="Psychic2"   value="Psychic">Psychic</option>
+            <option id="Bug2"       value="Bug">Bug</option>
+            <option id="Rock2"      value="Rock">Rock</option>
+            <option id="Ghost2"     value="Ghost">Ghost</option>
+            <option id="Dragon2"    value="Dragon">Dragon</option>
+            <option id="Dark2"      value="Dark">Dark</option>
+            <option id="Steel2"     value="Steel">Steel</option>
+            <option id="Fairy2"     value="Fairy">Fairy</option>
+        </select>
       <input type="hidden" id="CPMin" name="CPMin"/>
       <input type="hidden" id="CPMax" name="CPMax"/>
   </form>
