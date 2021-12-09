@@ -10,7 +10,7 @@
         .bar:hover    { fill: brown; }
         .axis--x path { display: none; }
         #polar        { position:absolute; left: 45em; }
-        .histofilter  { position: absolute; top: 38em; left: 20.5em; }
+        .histofilter  { position: absolute; top: 38em; left: 18.5em; }
         .apply_filter { position: absolute; top: 10em; left: 35em; }
         svg           { position: absolute; margin-top: 0.925em; }
         select        { margin-left: 3.750em; }
