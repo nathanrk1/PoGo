@@ -63,27 +63,257 @@
     //baseline input
     $_SESSION['MinCP'] = 0;
     $_SESSION['MaxCP'] = 5000;
-    // $_SESSION['Type1'] = '- Type1 -';
-    // $_SESSION['Type2'] = '- Type2 -';
+    $_SESSION['Type1'] = $_POST["Type1"];
+    $_SESSION['Type2'] = $_POST["Type2"];
 
     $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats";
 
     //switch to dex sort
     if($_REQUEST["dex_Order"]){
       $_SESSION['Sort'] = "ID";
-      $_REQUEST["apply_filter"];
+      $_SESSION['MinCP'] = $_POST["CPMin"];
+        $_SESSION['MaxCP'] = $_POST["CPMax"];
+        $_SESSION['Type1'] = $_POST["Type1"];
+        $_SESSION['Type2'] = $_POST["Type2"];
+        
+        //normal filter
+        if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
+          //for id sort
+          if($_SESSION['Sort'] == "ID"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          }
+
+          //for type sort
+          if($_SESSION['Sort'] == "Type"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          }
+
+          //for CP sort
+          if($_SESSION['Sort'] == "CP"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          }
+
+      }//end normal filter 
+
+      //only Type 1
+      if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end only Type1 filter 
+
+      //only Type 2
+      if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end only Type 2 filter 
+
+      //Both Types
+      if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end Both Types filter 
+      
     }//end dex sort
 
     //switch to type sort
     if($_REQUEST["type_Order"]){
       $_SESSION['Sort'] = "Type";
-      $_REQUEST["apply_filter"];
+      $_SESSION['MinCP'] = $_POST["CPMin"];
+        $_SESSION['MaxCP'] = $_POST["CPMax"];
+        $_SESSION['Type1'] = $_POST["Type1"];
+        $_SESSION['Type2'] = $_POST["Type2"];
+        
+        //normal filter
+        if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
+          //for id sort
+          if($_SESSION['Sort'] == "ID"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          }
+
+          //for type sort
+          if($_SESSION['Sort'] == "Type"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          }
+
+          //for CP sort
+          if($_SESSION['Sort'] == "CP"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          }
+
+      }//end normal filter 
+
+      //only Type 1
+      if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end only Type1 filter 
+
+      //only Type 2
+      if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end only Type 2 filter 
+
+      //Both Types
+      if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end Both Types filter 
     }//end type sort
 
     //switch to cp sort
     if($_REQUEST["CP_Order"]){
       $_SESSION['Sort'] = "CP";
-      $_REQUEST["apply_filter"];
+      $_SESSION['MinCP'] = $_POST["CPMin"];
+        $_SESSION['MaxCP'] = $_POST["CPMax"];
+        $_SESSION['Type1'] = $_POST["Type1"];
+        $_SESSION['Type2'] = $_POST["Type2"];
+        
+        //normal filter
+        if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
+          //for id sort
+          if($_SESSION['Sort'] == "ID"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+          }
+
+          //for type sort
+          if($_SESSION['Sort'] == "Type"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+          }
+
+          //for CP sort
+          if($_SESSION['Sort'] == "CP"){
+            $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+          }
+
+      }//end normal filter 
+
+      //only Type 1
+      if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] == "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end only Type1 filter 
+
+      //only Type 2
+      if ($_SESSION['Type1'] == "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end only Type 2 filter 
+
+      //Both Types
+      if ($_SESSION['Type1'] != "- Type 1 -" & $_SESSION['Type2'] != "- Type 2 -"){
+        //for id sort
+        if($_SESSION['Sort'] == "ID"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP'].";";
+        }
+
+        //for type sort
+        if($_SESSION['Sort'] == "Type"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Pokemon_Type ASC";
+        }
+
+        //for CP sort
+        if($_SESSION['Sort'] == "CP"){
+          $sql = "SELECT Data_ID, Form, Pokemon_ID, Pokemon_Name, Max_CP, Pokemon_Type FROM PokemonGOStats WHERE Pokemon_Type LIKE '%".$_SESSION['Type1']."%' AND Pokemon_Type LIKE '%".$_SESSION['Type2']."%' AND Max_CP BETWEEN ".$_SESSION['MinCP']." AND ".$_SESSION['MaxCP']." "."ORDER BY Max_CP ASC";
+        }
+      }//end Both Types filter 
+      
     }//end CP Sort
 
     // Apply filter
